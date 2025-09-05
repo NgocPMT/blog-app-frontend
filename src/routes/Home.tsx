@@ -1,12 +1,11 @@
 import { Link } from "react-router";
 import Modal from "../components/Modal";
 import { useState } from "react";
-import { FaFacebook } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import { MdAccountCircle } from "react-icons/md";
+import SignUpForm from "../components/SignUpForm";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAccountSignUp, setIsAccountSignUp] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -14,6 +13,7 @@ const Home = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setIsAccountSignUp(false);
   };
 
   return (
@@ -57,40 +57,10 @@ const Home = () => {
         </footer>
       </div>
       <Modal open={isModalOpen} onClose={closeModal}>
-        <div className="max-sm:min-w-lvw max-md:min-h-lvh md:p-12 md:max-w-[40rem] flex flex-col justify-center items-center gap-6 md:gap-10">
-          <h2 className="font-lora text-3xl">Join Medium.</h2>
-          <div className="flex flex-col gap-4 ">
-            <button className="btn bg-white text-black border px-8 md:px-16 md:py-2.5 relative">
-              <FcGoogle className="h-1/2 w-auto absolute left-2 top-1/4" />
-              <p>Sign up with Google</p>
-            </button>
-            <button className="btn bg-white text-black border px-8 md:px-16 md:py-2.5 relative">
-              <FaFacebook className="h-1/2 w-auto absolute left-2 top-1/4 text-blue-600" />
-              <p>Sign up with Facebook</p>
-            </button>
-            <button className="btn bg-white text-black border px-8 md:px-16 md:py-2.5 relative">
-              <MdAccountCircle className="h-1/2 w-auto absolute left-2 top-1/4 text-black" />
-              <p>Sign up with account</p>
-            </button>
-          </div>
-          <p className="text-sm">
-            Already have an account?{" "}
-            <Link to="sign-in" className="underline">
-              Sign in
-            </Link>
-          </p>
-          <p className="text-center text-sm text-gray-500 -mt-4">
-            Click “Sign up” to agree to Medium’s{" "}
-            <Link to="" className="underline">
-              Terms of Service
-            </Link>{" "}
-            and acknowledge that Medium’s{" "}
-            <Link to="" className="underline">
-              Privacy Policy
-            </Link>{" "}
-            applies to you.
-          </p>
-        </div>
+        <SignUpForm
+          isAccount={isAccountSignUp}
+          setIsAccount={(isAccount: boolean) => setIsAccountSignUp(isAccount)}
+        />
       </Modal>
     </>
   );
