@@ -9,11 +9,18 @@ interface SignUpFormProps {
   setIsAccount: (isAccount: boolean) => void;
 }
 
+interface SubmitBody {
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+}
+
 const SignUpForm = ({ isAccount, setIsAccount }: SignUpFormProps) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   const handleUsernameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -27,10 +34,31 @@ const SignUpForm = ({ isAccount, setIsAccount }: SignUpFormProps) => {
     setPassword(e.target.value);
   };
 
-  const handleConfirmPasswordInput = (
+  const handlePasswordConfirmationInput = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setConfirmPassword(e.target.value);
+    setPasswordConfirmation(e.target.value);
+  };
+
+  const handleSubmitAccountForm = async () => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+        passwordConfirmation,
+      } satisfies SubmitBody),
+    });
+    const data = await res.json();
+    if (data.errors) {
+      console.log(data.errors);
+    } else {
+      console.log(data.message);
+    }
   };
 
   return (
@@ -89,8 +117,8 @@ const SignUpForm = ({ isAccount, setIsAccount }: SignUpFormProps) => {
                 Confirm Password
               </label>
               <input
-                value={confirmPassword}
-                onChange={handleConfirmPasswordInput}
+                value={passwordConfirmation}
+                onChange={handlePasswordConfirmationInput}
                 type="password"
                 name="passwordConfirmation"
                 id="passwordConfirmation"
@@ -100,6 +128,7 @@ const SignUpForm = ({ isAccount, setIsAccount }: SignUpFormProps) => {
             </div>
             <div className="text-center mt-6">
               <button
+                onClick={handleSubmitAccountForm}
                 type="button"
                 className="btn transition-opacity hover:opacity-80"
               >
