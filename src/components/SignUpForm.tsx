@@ -3,6 +3,7 @@ import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { MdAccountCircle } from "react-icons/md";
 import { Link } from "react-router";
+import FormField from "./FormField";
 
 interface SignUpFormProps {
   isAccount: boolean;
@@ -21,6 +22,9 @@ const SignUpForm = ({ isAccount, setIsAccount }: SignUpFormProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [validationErrors, setValidationErrors] = useState<
+    Array<string | null>
+  >([]);
 
   const handleUsernameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -40,7 +44,49 @@ const SignUpForm = ({ isAccount, setIsAccount }: SignUpFormProps) => {
     setPasswordConfirmation(e.target.value);
   };
 
+  const handleFormValidation = () => {
+    let usernameErr: string | null = null;
+    let emailErr: string | null = null;
+    let passwordErr: string | null = null;
+    let passwordConfirmationErr: string | null = null;
+
+    const usernameLength = username.trim().length;
+    if (usernameLength === 0) {
+      usernameErr = "Username must not be empty";
+    } else if (usernameLength < 3 || usernameLength > 255) {
+      usernameErr = "Username must be between 3 and 255 characters";
+    }
+
+    if (email.trim().length == 0) {
+      emailErr = "Email must not be empty";
+    } else if (!email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)) {
+      emailErr = "Please enter a valid email";
+    }
+
+    const passwordLength = password.trim().length;
+    if (passwordLength === 0) {
+      passwordErr = "Password must not be empty";
+    } else if (passwordLength < 6 || passwordLength > 255) {
+      passwordErr = "Password must be between 6 and 255 characters";
+    }
+
+    if (password !== passwordConfirmation) {
+      passwordConfirmationErr =
+        "Password must match with password confirmation";
+    }
+
+    setValidationErrors([
+      usernameErr,
+      emailErr,
+      passwordErr,
+      passwordConfirmationErr,
+    ]);
+  };
+
   const handleSubmitAccountForm = async () => {
+    handleFormValidation();
+    const isValid = validationErrors.filter((error) => !!error).length === 0;
+    if (!isValid) return;
     const res = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
       method: "POST",
       headers: {
@@ -67,65 +113,46 @@ const SignUpForm = ({ isAccount, setIsAccount }: SignUpFormProps) => {
         <>
           <h2 className="font-lora text-2xl">Sign up with account</h2>
           <form className="w-2/3">
-            <div>
-              <label htmlFor="username" className="block text-sm my-2">
-                Username
-              </label>
-              <input
-                value={username}
-                onChange={handleUsernameInput}
-                type="text"
-                name="username"
-                id="username"
-                placeholder="Enter your username"
-                className="bg-gray-100 focus:bg-gray-50 p-2 text-sm w-full rounded-sm"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm my-2">
-                Email
-              </label>
-              <input
-                value={email}
-                onChange={handleEmailInput}
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Enter your email address"
-                className="bg-gray-100 focus:bg-gray-50 p-2 text-sm w-full rounded-sm"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm my-2">
-                Password
-              </label>
-              <input
-                value={password}
-                onChange={handlePasswordInput}
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Enter your password"
-                className="bg-gray-100 focus:bg-gray-50 p-2 text-sm w-full rounded-sm"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="passwordConfirmation"
-                className="block text-sm my-2"
-              >
-                Confirm Password
-              </label>
-              <input
-                value={passwordConfirmation}
-                onChange={handlePasswordConfirmationInput}
-                type="password"
-                name="passwordConfirmation"
-                id="passwordConfirmation"
-                placeholder="Confirm your password"
-                className="bg-gray-100 focus:bg-gray-50 p-2 text-sm w-full rounded-sm"
-              />
-            </div>
+            <FormField
+              id="username"
+              label="Username"
+              value={username}
+              placeholder="Enter your username"
+              type="text"
+              onChange={handleUsernameInput}
+              onBlur={handleFormValidation}
+              error={validationErrors[0]}
+            />
+            <FormField
+              id="email"
+              label="Email"
+              value={email}
+              placeholder="Enter your email"
+              type="email"
+              onChange={handleEmailInput}
+              onBlur={handleFormValidation}
+              error={validationErrors[1]}
+            />
+            <FormField
+              id="password"
+              label="Password"
+              value={password}
+              placeholder="Enter your password"
+              type="password"
+              onChange={handlePasswordInput}
+              onBlur={handleFormValidation}
+              error={validationErrors[2]}
+            />
+            <FormField
+              id="passwordConfirmation"
+              label="Confirm Password"
+              value={passwordConfirmation}
+              placeholder="Confirm your password"
+              type="password"
+              onChange={handlePasswordConfirmationInput}
+              onBlur={handleFormValidation}
+              error={validationErrors[3]}
+            />
             <div className="text-center mt-6">
               <button
                 onClick={handleSubmitAccountForm}
