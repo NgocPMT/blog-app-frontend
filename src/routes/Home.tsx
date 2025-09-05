@@ -1,21 +1,6 @@
-import { Link } from "react-router";
-import Modal from "../components/Modal";
-import { useState } from "react";
-import SignUpForm from "../components/SignUpForm";
+import { Link, Outlet } from "react-router";
 
 const Home = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAccountSignUp, setIsAccountSignUp] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setIsAccountSignUp(false);
-  };
-
   return (
     <>
       <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh text-black">
@@ -28,9 +13,9 @@ const Home = () => {
               <Link to="sign-in" className="max-sm:hidden mr-3">
                 Sign in
               </Link>
-              <button onClick={openModal} className="btn">
+              <Link to="sign-up" className="btn">
                 Get started
-              </button>
+              </Link>
             </nav>
           </div>
           <hr />
@@ -42,12 +27,12 @@ const Home = () => {
           <p className="text-2xl">
             A place to read, write, and deepen your understanding
           </p>
-          <button
-            onClick={openModal}
+          <Link
+            to="sign-up"
             className="btn px-11 text-lg  hover:opacity-80 transition-all"
           >
             Start reading
-          </button>
+          </Link>
         </section>
         <footer className="bg-black text-white text-xs flex gap-4 py-6.5 px-5 md:px-12 lg:justify-center">
           <Link to="#">About</Link>
@@ -56,12 +41,7 @@ const Home = () => {
           <Link to="#">Privacy</Link>
         </footer>
       </div>
-      <Modal open={isModalOpen} onClose={closeModal}>
-        <SignUpForm
-          isAccount={isAccountSignUp}
-          setIsAccount={(isAccount: boolean) => setIsAccountSignUp(isAccount)}
-        />
-      </Modal>
+      <Outlet />
     </>
   );
 };

@@ -5,11 +5,6 @@ import { MdAccountCircle } from "react-icons/md";
 import { Link } from "react-router";
 import FormField from "./FormField";
 
-interface SignUpFormProps {
-  isAccount: boolean;
-  setIsAccount: (isAccount: boolean) => void;
-}
-
 interface SubmitBody {
   username: string;
   email: string;
@@ -17,7 +12,7 @@ interface SubmitBody {
   passwordConfirmation: string;
 }
 
-const SignUpForm = ({ isAccount, setIsAccount }: SignUpFormProps) => {
+const SignUpForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +20,7 @@ const SignUpForm = ({ isAccount, setIsAccount }: SignUpFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     Array<string | null>
   >([]);
+  const [isAccount, setIsAccount] = useState(false);
 
   const handleUsernameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);

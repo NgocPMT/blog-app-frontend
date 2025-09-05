@@ -2,12 +2,12 @@ import type { ReactNode } from "react";
 import { GrClose } from "react-icons/gr";
 
 interface ModalProps {
-  open: boolean;
+  open?: boolean;
   onClose: () => void;
   children: ReactNode;
 }
 
-const Modal = ({ open, onClose, children }: ModalProps) => {
+const Modal = ({ open = true, onClose, children }: ModalProps) => {
   return (
     <div
       onClick={onClose}

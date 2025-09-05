@@ -1,6 +1,7 @@
 import Layout from "./Layout";
 import Home from "./Home";
 import ErrorPage from "./ErrorPage";
+import SignUp from "./SignUp";
 
 const routes = [
   {
@@ -10,6 +11,12 @@ const routes = [
       {
         path: "/",
         element: <Home />,
+        children: [
+          {
+            path: "sign-up",
+            element: <SignUp />,
+          },
+        ],
       },
     ],
   },
