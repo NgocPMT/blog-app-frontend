@@ -2,6 +2,7 @@ import Layout from "./Layout";
 import Home from "./Home";
 import ErrorPage from "./ErrorPage";
 import SignUp from "./SignUp";
+import SignIn from "./SignIn";
 
 const routes = [
   {
@@ -15,6 +16,10 @@ const routes = [
           {
             path: "sign-up",
             element: <SignUp />,
+          },
+          {
+            path: "sign-in",
+            element: <SignIn />,
           },
         ],
       },
