@@ -10,10 +10,10 @@ const Home = () => {
               Easium
             </Link>
             <nav className="flex items-center gap-3">
-              <Link to="sign-in" className="max-sm:hidden mr-3">
+              <Link to="sign-in" className="max-sm:hidden mr-3" viewTransition>
                 Sign in
               </Link>
-              <Link to="sign-up" className="btn">
+              <Link to="sign-up" className="btn" viewTransition>
                 Get started
               </Link>
             </nav>
@@ -30,6 +30,7 @@ const Home = () => {
           <Link
             to="sign-up"
             className="btn px-11 text-lg  hover:opacity-80 transition-all"
+            viewTransition
           >
             Start reading
           </Link>

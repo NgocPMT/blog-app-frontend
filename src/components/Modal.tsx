@@ -20,6 +20,7 @@ const Modal = ({ open = true, onClose, children }: ModalProps) => {
         className={`bg-white rounded-sm shadow transition-all relative ${
           open ? "scale-100 opacity-100" : "scale-75 opacity-0"
         }`}
+        style={{ viewTransitionName: "modal" }}
       >
         <button
           onClick={onClose}

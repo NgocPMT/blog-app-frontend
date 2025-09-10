@@ -167,7 +167,7 @@ const SignUpForm = () => {
           </button>
           <p className="text-sm">
             Already have an account?{" "}
-            <Link to="sign-in" className="underline">
+            <Link to="/sign-in" className="underline">
               Sign in
             </Link>
           </p>
@@ -194,7 +194,7 @@ const SignUpForm = () => {
           </div>
           <p className="text-sm">
             Already have an account?{" "}
-            <Link to="sign-in" className="underline">
+            <Link to="/sign-in" className="underline" viewTransition>
               Sign in
             </Link>
           </p>

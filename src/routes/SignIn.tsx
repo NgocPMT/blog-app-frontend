@@ -6,7 +6,7 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const handleClose = () => {
-    navigate("/");
+    navigate("/", { viewTransition: true });
   };
 
   return (
